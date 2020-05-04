@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
+use App\Service\PositionTimeCalculator;
+
 class Match
 {
-    public const INFO_MESSAGE_TYPE             = 'info';
+    public const INFO_MESSAGE_TYPE = 'info';
     public const DANGEROUS_MOMENT_MESSAGE_TYPE = 'dangerousMoment';
-    public const GOAL_MESSAGE_TYPE             = 'goal';
-    public const YELLOW_CARD_MESSAGE_TYPE      = 'yellowCard';
-    public const RED_CARD_MESSAGE_TYPE         = 'redCard';
-    public const REPLACE_PLAYER_MESSAGE_TYPE   = 'replacePlayer';
+    public const GOAL_MESSAGE_TYPE = 'goal';
+    public const YELLOW_CARD_MESSAGE_TYPE = 'yellowCard';
+    public const RED_CARD_MESSAGE_TYPE = 'redCard';
+    public const REPLACE_PLAYER_MESSAGE_TYPE = 'replacePlayer';
 
     private const MESSAGE_TYPES = [
         self::INFO_MESSAGE_TYPE,
@@ -27,6 +29,7 @@ class Match
     private Team $homeTeam;
     private Team $awayTeam;
     private array $messages;
+    private PositionTimeCalculator $positionTimeCalculator;
 
     public function __construct(string $id, \DateTime $date, string $tournament, Stadium $stadium, Team $homeTeam, Team $awayTeam)
     {
@@ -37,6 +40,7 @@ class Match
         $this->homeTeam = $homeTeam;
         $this->awayTeam = $awayTeam;
         $this->messages = [];
+        $this->positionTimeCalculator = new PositionTimeCalculator();
     }
 
     public function getId(): string
@@ -80,9 +84,16 @@ class Match
 
         $this->messages[] = [
             'minute' => $minute,
-            'text'   => $text,
-            'type'   => $type,
+            'text' => $text,
+            'type' => $type,
         ];
+    }
+   //записываем в наш калькулятор игрового времени информацию по игрокам домашней и гостевой команды, а затем возвращаем итоговые значения
+    public function getPositionTime()
+    {
+        $this->positionTimeCalculator->getTimeFromTeam($this->homeTeam);
+        $this->positionTimeCalculator->getTimeFromTeam($this->awayTeam);
+        return $this->positionTimeCalculator->getTimeByPosition();
     }
 
     private function assertCorrectType(string $type): void

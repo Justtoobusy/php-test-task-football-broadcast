@@ -88,6 +88,32 @@
             {% import _self as render %}
             {{ render.renderTeamInfo(match.homeTeam) }}
             {{ render.renderTeamInfo(match.awayTeam) }}
+            <div class="card mb-3">
+
+                <div class="card-body">
+                    <table class="table table">
+                        <thead>
+                        <tr>
+                            <th>Позиция</th>
+                            <th>Время</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for position,time in match.positionTime %}
+                            <tr>
+                                <td>
+                                    {{ position }}
+                                </td>
+                                <td>
+                                    {{ time }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

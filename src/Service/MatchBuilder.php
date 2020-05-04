@@ -67,13 +67,13 @@ class MatchBuilder
     {
         return $this->buildTeam($startMatchEvent, 2);
     }
-
+    //теперь храним в игроке еще и данные по его позиции
     private function buildTeam(array $event, string $teamNumber): Team
     {
         $teamInfo = $event['details']["team$teamNumber"];
         $players = [];
         foreach ($teamInfo['players'] as $playerInfo) {
-            $players[] = new Player($playerInfo['number'], $playerInfo['name']);
+            $players[] = new Player($playerInfo['number'], $playerInfo['name'],$playerInfo['position']);
         }
 
         return new Team($teamInfo['title'], $teamInfo['country'], $teamInfo['logo'], $players, $teamInfo['coach']);
