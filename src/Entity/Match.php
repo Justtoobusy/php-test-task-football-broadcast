@@ -89,7 +89,7 @@ class Match
         ];
     }
    //записываем в наш калькулятор игрового времени информацию по игрокам домашней и гостевой команды, а затем возвращаем итоговые значения
-    public function getPositionTime()
+    public function getPositionTime():array
     {
         $this->positionTimeCalculator->getTimeFromTeam($this->homeTeam);
         $this->positionTimeCalculator->getTimeFromTeam($this->awayTeam);

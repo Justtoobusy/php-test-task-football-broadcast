@@ -40,7 +40,7 @@ class PositionTimeCalculator
         ];
     }
     //записываем данные по игровому времени игроков конкретных позиций конкретно команды
-    public function getTimeFromTeam(Team $team)
+    public function getTimeFromTeam(Team $team):void
     {
         /* @var $player Player */
         foreach ($team->getPlayers() as $player) {
@@ -49,7 +49,7 @@ class PositionTimeCalculator
         }
     }
     //возвращаем массив позиция => время
-    public function getTimeByPosition()
+    public function getTimeByPosition():array
     {
         return $this->timeByPosition;
     }
